@@ -106,16 +106,16 @@ class Player(pygame.sprite.Sprite):
             self.vel.y = FALL_CAP
         #wall and platform collision
         hits = pygame.sprite.spritecollide(P1, platforms, False)
-        if hits:
-            print(determineSide(hits[0].rect, self.rect))
         for obj in hits:
+            if len(hits) > 0:
+                print(determineSide(obj.rect, self.rect))
             if P1.vel.y > 0 and hits and determineSide(obj.rect, self.rect) == 'top':
                 self.vel.y = 0
-                self.pos.y = obj.rect.top + 1
+                self.pos.y = obj.rect.top
                 EX_JUMPS = 1
-            elif hits and determineSide(self.rect, obj.rect) == 'bottom':
+            elif hits and determineSide(obj.rect, self.rect) == 'bottom':
                 self.vel.y = 0
-                self.pos.y = obj.rect.bottom - 1
+                self.rect.top = obj.rect.bottom + 1
             if hits and determineSide(obj.rect, self.rect) == 'left':
                 if self.walljump == False:
                     self.vel.x = 0
@@ -128,8 +128,8 @@ class Player(pygame.sprite.Sprite):
                 self.vel.y /= 2
                 self.rect.left = obj.rect.right
                 self.walljump = 'right'
-            else:
-                self.walljump = False
+        if len(hits) < 1:
+            self.walljump = False
 
 #platform
 class platform(pygame.sprite.Sprite):
