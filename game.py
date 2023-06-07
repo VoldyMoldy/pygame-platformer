@@ -107,29 +107,32 @@ class Player(pygame.sprite.Sprite):
         #wall and platform collision
         hits = pygame.sprite.spritecollide(P1, platforms, False)
         for obj in hits:
-            if len(hits) > 0:
-                print(determineSide(obj.rect, self.rect))
+            #if len(hits) > 0:
+                #print(determineSide(obj.rect, self.rect))
             if P1.vel.y > 0 and hits and determineSide(obj.rect, self.rect) == 'top':
                 self.vel.y = 0
                 self.pos.y = obj.rect.top
                 EX_JUMPS = 1
             elif hits and determineSide(obj.rect, self.rect) == 'bottom':
                 self.vel.y = 0
-                self.rect.top = obj.rect.bottom + 1
+                self.pos.y = obj.rect.bottom + 31
+                self.walljump = False
             if hits and determineSide(obj.rect, self.rect) == 'left':
                 if self.walljump == False:
                     self.vel.x = 0
                 self.vel.y /= 2
-                self.rect.right = obj.rect.left
+                self.pos.x = obj.rect.left - 15
                 self.walljump = 'left'
             elif hits and determineSide(obj.rect, self.rect) == 'right':
                 if self.walljump == False:
                     self.vel.x = 0
                 self.vel.y /= 2
-                self.rect.left = obj.rect.right
+                self.pos.x = obj.rect.right + 15
                 self.walljump = 'right'
         if len(hits) < 1:
             self.walljump = False
+        
+        print(self.pos)
 
 #platform
 class platform(pygame.sprite.Sprite):
