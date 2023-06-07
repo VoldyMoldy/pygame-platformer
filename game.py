@@ -31,11 +31,11 @@ jump  = pygame.K_SPACE
 
 #collision direction
 def determineSide(rect1, rect2):
-    if rect1.midtop[1] > rect2.midtop[1]:
+    if rect1.top > rect2.top:
         return "top"
-    elif rect1.midleft[0] > rect2.midleft[0]:
+    elif rect1.left > rect2.left:
         return "left"
-    elif rect1.midright[0] < rect2.midright[0]:
+    elif rect1.right < rect2.right:
         return "right"
     else:
         return "bottom"
@@ -91,10 +91,10 @@ class Player(pygame.sprite.Sprite):
         if hits or EX_JUMPS > 0:
             self.vel.y = -15
             if self.walljump == 'left':
-                self.vel.y *= 2
+                self.vel.y = -30
                 self.vel.x = -10
             elif self.walljump == 'right':
-                self.vel.y *= 2
+                self.vel.y = -30
                 self.vel.x = 10
             if not hits:
                EX_JUMPS = EX_JUMPS - 1
@@ -108,27 +108,28 @@ class Player(pygame.sprite.Sprite):
         hits = pygame.sprite.spritecollide(P1, platforms, False)
         if hits:
             print(determineSide(hits[0].rect, self.rect))
-        if P1.vel.y > 0 and hits and determineSide(hits[0].rect, self.rect) == 'top':
-            self.vel.y = 0
-            self.pos.y = hits[0].rect.top + 1
-            EX_JUMPS = 1
-        elif P1.vel.y < 0 and hits and determineSide(self.rect, hits[0].rect) == 'bottom':
-            self.vel.y = 0
-            self.pos.y = hits[0].rect.bottom - 1
-        if hits and determineSide(hits[0].rect, self.rect) == 'left':
-            if self.walljump == False:
-                self.vel.x = 0
-            self.vel.y /= 2
-            self.rect.right = hits[0].rect.left
-            self.walljump = 'left'
-        elif hits and determineSide(hits[0].rect, self.rect) == 'right':
-            if self.walljump == False:
-                self.vel.x = 0
-            self.vel.y /= 2
-            self.rect.left = hits[0].rect.right
-            self.walljump = 'right'
-        else:
-            self.walljump = False
+        for obj in hits:
+            if P1.vel.y > 0 and hits and determineSide(obj.rect, self.rect) == 'top':
+                self.vel.y = 0
+                self.pos.y = obj.rect.top + 1
+                EX_JUMPS = 1
+            elif hits and determineSide(self.rect, obj.rect) == 'bottom':
+                self.vel.y = 0
+                self.pos.y = obj.rect.bottom - 1
+            if hits and determineSide(obj.rect, self.rect) == 'left':
+                if self.walljump == False:
+                    self.vel.x = 0
+                self.vel.y /= 2
+                self.rect.right = obj.rect.left
+                self.walljump = 'left'
+            elif hits and determineSide(obj.rect, self.rect) == 'right':
+                if self.walljump == False:
+                    self.vel.x = 0
+                self.vel.y /= 2
+                self.rect.left = obj.rect.right
+                self.walljump = 'right'
+            else:
+                self.walljump = False
 
 #platform
 class platform(pygame.sprite.Sprite):
@@ -145,6 +146,7 @@ class platform(pygame.sprite.Sprite):
 PT1 = platform(WIDTH, 20, (WIDTH/2, HEIGHT - 10))
 PT2 = platform(100, 400, (400, 400))
 PT3 = platform(100, 400, (1200, 400))
+PT4 = platform(100, 400, (800, 800))
 P1 = Player()
 
 #assign player and platform to group of all sprites
@@ -152,6 +154,7 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(PT1)
 all_sprites.add(PT2)
 all_sprites.add(PT3)
+all_sprites.add(PT4)
 all_sprites.add(P1)
 
 #assign platform to group for platforms
@@ -159,6 +162,7 @@ platforms = pygame.sprite.Group()
 platforms.add(PT1)
 platforms.add(PT2)
 platforms.add(PT3)
+platforms.add(PT4)
 
 #game loop
 while True:
