@@ -58,15 +58,13 @@ class Player(pygame.sprite.Sprite):
         self.walljump = False
 
     #movement
-    def move(self):
+    def move(self, dir):
         self.acc = vec(0, GRAV)
 
-        pressed_keys = pygame.key.get_pressed()
-
-        #left and right arrows for movement
-        if pressed_keys[K_LEFT]:
+        #left is 0, right is 1, which eval to false and true
+        if not dir:
             self.acc.x = -ACC
-        if pressed_keys[K_RIGHT]:
+        if dir:
             self.acc.x = ACC
 
         #update and slide movement
@@ -132,7 +130,7 @@ class Player(pygame.sprite.Sprite):
         if len(hits) < 1:
             self.walljump = False
         
-        print(self.pos)
+        #print(self.pos)
 
 #platform
 class platform(pygame.sprite.Sprite):
@@ -174,10 +172,15 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        #jump
-        if event.type == pygame.KEYDOWN:    
-            if event.key == jump:
-                P1.jump()
+        #controls
+        pressed_keys = pygame.key.get_pressed()
+
+        if pressed_keys[jump]:
+            P1.jump()
+        if pressed_keys[left]:
+            P1.move(0)
+        if pressed_keys[right]:
+            P1.move(1)
 
     #update screen
     displaysurface.fill((0,0,0))
