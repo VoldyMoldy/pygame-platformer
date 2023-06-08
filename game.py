@@ -132,7 +132,7 @@ class Player(pygame.sprite.Sprite):
         if len(hits) < 1:
             self.walljump = False
         
-        print(self.pos)
+        #print(self.pos)
 
 #platform
 class platform(pygame.sprite.Sprite):
