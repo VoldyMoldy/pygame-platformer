@@ -8,14 +8,15 @@ pygame.init()
 vec = pygame.math.Vector2
 
 #game vars
-HEIGHT   = 900
-WIDTH    = 1600
-ACC      = 0.75
-FRIC     = -0.12
-GRAV     = 0.5
-EX_JUMPS = 1
-FALL_CAP = 15
-FPS      = 60
+HEIGHT    = 900
+WIDTH     = 1600
+ACC       = 0.75
+FRIC      = -0.12
+GRAV      = 0.5
+MAX_JUMPS = 0
+EX_JUMPS  = 0
+FALL_CAP  = 15
+FPS       = 60
 
 #set up fps
 FramePerSec = pygame.time.Clock()
@@ -64,9 +65,9 @@ class Player(pygame.sprite.Sprite):
         pressed_keys = pygame.key.get_pressed()
 
         #left and right arrows for movement
-        if pressed_keys[K_LEFT]:
+        if pressed_keys[left]:
             self.acc.x = -ACC
-        if pressed_keys[K_RIGHT]:
+        if pressed_keys[right]:
             self.acc.x = ACC
 
         #update and slide movement
@@ -85,7 +86,7 @@ class Player(pygame.sprite.Sprite):
 
     #jump
     def jump(self):
-        global EX_JUMPS
+        global EX_JUMPS, MAX_JUMPS
         #checks if on ground before jumping
         hits = pygame.sprite.spritecollide(self, platforms, False)
         if hits or EX_JUMPS > 0:
@@ -112,7 +113,7 @@ class Player(pygame.sprite.Sprite):
             if P1.vel.y > 0 and hits and determineSide(obj.rect, self.rect) == 'top':
                 self.vel.y = 0
                 self.pos.y = obj.rect.top
-                EX_JUMPS = 1
+                EX_JUMPS = MAX_JUMPS
             elif hits and determineSide(obj.rect, self.rect) == 'bottom':
                 self.vel.y = 0
                 self.pos.y = obj.rect.bottom + 31
