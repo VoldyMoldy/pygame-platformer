@@ -13,8 +13,8 @@ WIDTH     = 1600
 ACC       = 0.75
 FRIC      = -0.12
 GRAV      = 0.5
-MAX_JUMPS = 0
-EX_JUMPS  = 0
+MAX_JUMPS = 1
+EX_JUMPS  = 1
 FALL_CAP  = 15
 FPS       = 60
 
@@ -45,7 +45,7 @@ def determineSide(rect1, rect2):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
-        #self.image = pygame.image.load("character.png")
+        #self.image = pygame.image.load("sprites/idle.png")
         self.surf = pygame.Surface((30, 30))
         self.surf.fill((128,255,40))
         self.rect = self.surf.get_rect()
