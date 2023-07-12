@@ -10,8 +10,8 @@ vec = pygame.math.Vector2
 #game vars
 HEIGHT    = 900
 WIDTH     = 1600
-ACC       = 0.75
-FRIC      = -0.12
+ACC       = 1.5
+FRIC      = -0.25
 GRAV      = 0.5
 MAX_JUMPS = 1
 EX_JUMPS  = 1
@@ -93,10 +93,10 @@ class Player(pygame.sprite.Sprite):
             self.vel.y = -15
             if self.walljump == 'left':
                 self.vel.y = -30
-                self.vel.x = -10
+                self.vel.x = -20
             elif self.walljump == 'right':
                 self.vel.y = -30
-                self.vel.x = 10
+                self.vel.x = 20
             if not hits:
                EX_JUMPS = EX_JUMPS - 1
 
