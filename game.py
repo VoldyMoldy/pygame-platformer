@@ -45,15 +45,17 @@ def determineSide(rect1, rect2):
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__() 
-        #self.image = pygame.image.load("sprites/idle.png")
-        self.surf = pygame.Surface((30, 30))
-        self.surf.fill((128,255,40))
-        self.rect = self.surf.get_rect()
-
         #position
         self.pos = vec((10, 360))
         self.vel = vec(0,0)
         self.acc = vec(0,0)
+        
+        #sprite
+        self.image = pygame.image.load("sprites/idle.png")
+        self.surf = pygame.Surface((30, 30), pygame.SRCALPHA)
+        #self.surf.fill((128,255,40))
+        self.rect = self.surf.get_rect()
+        self.surf.blit(self.image, self.rect)
 
         #states
         self.walljump = False
@@ -75,11 +77,13 @@ class Player(pygame.sprite.Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
 
-        #screen wrapping
-        if self.pos.x > WIDTH:
-            self.pos.x = 0
-        if self.pos.x < 0:
-            self.pos.x = WIDTH
+        #screen boundary
+        if self.rect.right > WIDTH:
+            self.pos.x = WIDTH - 15
+            self.vel.x = 0
+        if self.rect.left < 0:
+            self.pos.x = 15
+            self.vel.x = 0
              
         #update sprite
         self.rect.midbottom = self.pos
