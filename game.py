@@ -31,6 +31,7 @@ pygame.display.set_caption("Game")
 left  = pygame.K_LEFT
 right = pygame.K_RIGHT
 jump  = pygame.K_SPACE
+reset = pygame.K_r
 
 #collision direction
 def determineSide(rect1, rect2):
@@ -185,6 +186,10 @@ while True:
         if event.type == pygame.KEYDOWN:    
             if event.key == jump:
                 P1.jump()
+        #reset button
+        if event.type == pygame.KEYDOWN:
+            if event.key == reset:
+                P1.pos = vec((10, 360))
 
     #update screen
     displaysurface.fill((0,0,0))
