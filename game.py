@@ -10,13 +10,15 @@ vec = pygame.math.Vector2
 #game vars
 HEIGHT    = 450
 WIDTH     = 800
+FALL_CAP  = 15
+FPS       = 60
+
+#feel free to change these
 ACC       = 1
 FRIC      = -0.25
 GRAV      = 0.5
 MAX_JUMPS = 1
 EX_JUMPS  = 1
-FALL_CAP  = 15
-FPS       = 60
 
 #set up fps
 FramePerSec = pygame.time.Clock()
