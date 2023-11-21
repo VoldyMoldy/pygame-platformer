@@ -8,9 +8,9 @@ pygame.init()
 vec = pygame.math.Vector2
 
 #game vars
-HEIGHT    = 900
-WIDTH     = 1600
-ACC       = 1.5
+HEIGHT    = 450
+WIDTH     = 800
+ACC       = 1
 FRIC      = -0.25
 GRAV      = 0.5
 MAX_JUMPS = 1
@@ -51,11 +51,11 @@ class Player(pygame.sprite.Sprite):
         self.acc = vec(0,0)
         
         #sprite
-        self.image = pygame.image.load("sprites/idle.png")
-        self.surf = pygame.Surface((30, 30), pygame.SRCALPHA)
-        #self.surf.fill((128,255,40))
+        #self.image = pygame.image.load("sprites/idle.png")
+        self.surf = pygame.Surface((15, 15), pygame.SRCALPHA)
+        self.surf.fill((128,255,40))
         self.rect = self.surf.get_rect()
-        self.surf.blit(self.image, self.rect)
+        #self.surf.blit(self.image, self.rect)
 
         #states
         self.walljump = False
@@ -79,10 +79,10 @@ class Player(pygame.sprite.Sprite):
 
         #screen boundary
         if self.rect.right > WIDTH:
-            self.pos.x = WIDTH - 15
+            self.pos.x = WIDTH - 7.5
             self.vel.x = 0
         if self.rect.left < 0:
-            self.pos.x = 15
+            self.pos.x = 7.5
             self.vel.x = 0
              
         #update sprite
@@ -94,13 +94,13 @@ class Player(pygame.sprite.Sprite):
         #checks if on ground before jumping
         hits = pygame.sprite.spritecollide(self, platforms, False)
         if hits or EX_JUMPS > 0:
-            self.vel.y = -15
+            self.vel.y = -10
             if self.walljump == 'left':
-                self.vel.y = -30
-                self.vel.x = -20
+                self.vel.y = -15
+                self.vel.x = -10
             elif self.walljump == 'right':
-                self.vel.y = -30
-                self.vel.x = 20
+                self.vel.y = -15
+                self.vel.x = 10
             if not hits:
                EX_JUMPS = EX_JUMPS - 1
 
@@ -120,19 +120,19 @@ class Player(pygame.sprite.Sprite):
                 EX_JUMPS = MAX_JUMPS
             elif hits and determineSide(obj.rect, self.rect) == 'bottom':
                 self.vel.y = 0
-                self.pos.y = obj.rect.bottom + 31
+                self.pos.y = obj.rect.bottom + 16
                 self.walljump = False
             if hits and determineSide(obj.rect, self.rect) == 'left':
                 if self.walljump == False:
                     self.vel.x = 0
                 self.vel.y /= 2
-                self.pos.x = obj.rect.left - 15
+                self.pos.x = obj.rect.left - 7.5
                 self.walljump = 'left'
             elif hits and determineSide(obj.rect, self.rect) == 'right':
                 if self.walljump == False:
                     self.vel.x = 0
                 self.vel.y /= 2
-                self.pos.x = obj.rect.right + 15
+                self.pos.x = obj.rect.right + 7.5
                 self.walljump = 'right'
         if len(hits) < 1:
             self.walljump = False
@@ -152,9 +152,9 @@ class platform(pygame.sprite.Sprite):
 
 #define test player and platform
 PT1 = platform(WIDTH, 20, (WIDTH/2, HEIGHT - 10))
-PT2 = platform(100, 400, (400, 400))
-PT3 = platform(100, 400, (1200, 400))
-PT4 = platform(100, 400, (800, 800))
+PT2 = platform(50, 200, (200, 200))
+PT3 = platform(50, 200, (600, 200))
+PT4 = platform(50, 200, (400, 400))
 P1 = Player()
 
 #assign player and platform to group of all sprites
