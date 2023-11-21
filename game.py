@@ -82,7 +82,7 @@ class Player(pygame.sprite.Sprite):
 
         #screen boundary
         if self.rect.right > WIDTH:
-            self.pos.x = WIDTH - 7.5
+            self.pos.x = WIDTH - 12.5
             self.vel.x = 0
         if self.rect.left < 0:
             self.pos.x = 7.5
